@@ -25,7 +25,7 @@ logging.basicConfig(
 class GetHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
     def do_GET(self):
-        logging.info('Trying... ' + self.headers)
+        logging.info('Trying... ' + str(self.headers))
         if header_ip in self.headers:
             logging.info('Bad!')
         else:
