@@ -25,11 +25,12 @@ logging.basicConfig(
 class GetHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
     def do_GET(self):
-        logging.info('Trying... ' + str(self.headers))
-        if header_ip in self.headers:
-            logging.info('Bad!')
-        else:
-            logging.info('Well.')
+        client_ip = ':'.join(str(i) for i in self.client_address)
+        logging.info(client_ip + ' Trying... ')
+        counter = 0
+        for header in self.headers.values():
+            if header_ip in str(header): counter += 1
+        logging.info(client_ip + ' Bad!' if counter else ' Well.')
 
         SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
 
