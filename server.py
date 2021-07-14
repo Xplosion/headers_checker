@@ -30,14 +30,21 @@ class GetHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         counter = 0
         for header in self.headers.values():
             if header_ip in str(header): counter += 1
+            print(header)
         logging.info(client_ip + ' Bad!' if counter else ' Well.')
+        response = 'bad'
         if not counter:
+            response = 'yay'
             with open('trusted_proxies.txt', 'a') as file:
                 try:
                     file.write('\n'+client_ip)
                 except: print('Запись не удалась')
 
-        SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(bytes(response, 'utf-8'))
+        #self.wfile.close()
+        #SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
 
 
 logging.info('Starting...')
