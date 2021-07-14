@@ -31,6 +31,11 @@ class GetHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         for header in self.headers.values():
             if header_ip in str(header): counter += 1
         logging.info(client_ip + ' Bad!' if counter else ' Well.')
+        if not counter:
+            with open('trusted_proxies.txt', 'a') as file:
+                try
+                    file.write('\n'+client_ip)
+                except: print('Запись не удалась')
 
         SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
 
@@ -40,3 +45,4 @@ Handler = GetHandler
 httpd = SocketServer.TCPServer(("", PORT), Handler)
 
 httpd.serve_forever()
+
