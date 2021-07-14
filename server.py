@@ -33,7 +33,7 @@ class GetHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         logging.info(client_ip + ' Bad!' if counter else ' Well.')
         if not counter:
             with open('trusted_proxies.txt', 'a') as file:
-                try
+                try:
                     file.write('\n'+client_ip)
                 except: print('Запись не удалась')
 
